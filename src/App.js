@@ -50,23 +50,23 @@ class App extends Component {
         {/* passa propriedade(criarNota) para o componente FormularioCadastro, que recebe um atributo(this.criarNota) */}
         {/* toda vez que uma função usar o this, tem que colocar o bind */}
         <FormularioCadastro
-          categorias={this.categorias.categorias}
-          criarNota={this.notas.criarNota}
+          categorias={this.categorias} // para ter acesso a todos métodos do componente Categorias
+          criarNota={this.notas.adicionarNota.bind(this.notas)}
           // criarNota={this.criarNota.bind(this)}
           // categorias={this.state.categorias}
         />
         <main className='conteudo-principal'>
           <ListaDeCategorias
-            adicionarCategoria={this.categorias.adicionarCategoria}
-            categorias={this.categorias.categorias}
+            adicionarCategoria={this.categorias.adicionarCategoria.bind(this.categorias)}
+            categorias={this.categorias} // para ter acesso a todos métodos do componente Categorias
             // adicionarCategoria={this.adicionarCategoria.bind(this)}
             // categorias={this.state.categorias}
           />
 
           {/* envia o array de notas para a ListaDeNotas */}
           <ListaDeNotas
-            notas={this.notas.notas}
-            apagarNotas={this.notas.apagarNotas}
+            notas={this.notas} // para ter acesso a todos métodos do componente Notas
+            apagarNota={this.notas.apagarNota.bind(this.notas)}
             // notas={this.state.notas}
             // apagarNota={this.deletarNota.bind(this)}
           />

@@ -9,6 +9,29 @@ class FormularioCadastro extends Component {
     this.titulo = "";
     this.texto = "";
     this.categoria = "Sem Categoria";
+    this.state = { categorias: []};
+
+    // faz isso para ter uma única referência do bind, para poder rodar certo o inscrever e desisnscrever
+    // se colocar o bind dentro da função componenteWillUnmount, ele vai referênciar uma nova referência, dando erro ao desiscrever
+    this._novasCategorias = this._novasCategorias.bind(this);
+  }
+
+  // componentDidMount-> é chamado depois da criação dos objetos(depois que o componente é criado)
+  // é dentro desse método que devemos iniciar chamadas para API
+  componentDidMount() {
+    // associar FormularioCadastro com Categorias(está dentro da pasta dados)
+    // pega a fonte de dados de categorias se inscreve nela e executa o método _novasCategorias, toda vez que estiver alguma notificação
+    this.props.categorias.inscrever(this._novasCategorias);
+  }
+
+  // é chamado toda vez que o componente for destruido. 
+  componentWillUnmount() {
+    // deve chamar o método desinscrever, qdo o componente for destruido
+    this.props.categorias.inscrever(this._novasCategorias );
+  }
+
+  _novasCategorias(categorias) {
+    this.setState({ ...this.state, categorias });
   }
 
   _handleMudancaTitulo(evento) {
@@ -41,7 +64,7 @@ class FormularioCadastro extends Component {
           onChange={this._handleMudancaCategoria.bind(this)}
         >
           <option>Sem Categoria</option>
-          {this.props.categorias.map((categoria, index) => {
+          {this.state.categorias.map((categoria, index) => {
             return <option key={index}>{categoria}</option>;
           })}
         </select>
